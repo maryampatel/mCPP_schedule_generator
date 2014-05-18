@@ -1,0 +1,29 @@
+form {
+    width: 85%;
+    margin: auto;
+}
+h3 {
+    text-align: center;
+}
+.description  {
+    text-align: center;
+}
+table.hide-pretreatment-one th:nth-child(3){
+    display: none;
+}
+table.hide-pretreatment-one td:nth-child(3){
+    display: none;
+}
+table.hide-pretreatment-two th:nth-child(4){
+    display: none;
+}
+table.hide-pretreatment-two td:nth-child(4){
+    display: none;
+}
+table {
+    display: none;
+}
+.results {
+    width: 85%;
+    margin: 60px auto;
+}

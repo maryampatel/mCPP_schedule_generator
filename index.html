@@ -1,152 +1,83 @@
- 
- 
- 
- 
 <html lang="en">
-  <style>
-    html {}
-  </style>
+  <!-- External Javascipt &amp; Style Sheets -->
   <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.6.0/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.6.0/moment.min.js"></script>
   <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/css/bootstrap-datetimepicker.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.js"></script>
-  <script type="text/javascript">
-    // $(document).ready(function(){
-    //   $(function() {
-    //     $('.date-picker').datetimepicker({
-    //       pickTime: false
-    //     });
-    //   });
-    //   $(function() {
-    //     $('.time-picker').datetimepicker({
-    //       pickDate: false,
-    //       pickSeconds: true
-    //     });
-    //   });
-    // });
- 
-function calculate_start_date_and_time(start_date, start_time) {
-    var start_time_hours = start_time.substr(0, 2),
-        start_time_minutes = start_time.substr(2, 4),
-        start_year = start_date.substr(0, 4),
-        start_month = start_date.substr(5, 2),
-        start_day = start_date.substr(8);
-    return moment(start_year + "-" + start_month + "-" + start_day + " " + start_time_hours + ":" + start_time_minutes + ":" + "00");
-}
- 
-function subtract_time(moment_date_object, time_string) {
-    time_string = ("000" + time_string).slice(-4);
-    var time_string_hours = time_string.substr(0, 2),
-        time_string_minutes = time_string.substr(2, 4);
-    return moment_date_object.subtract('hours', parseInt(time_string_hours)).subtract('minutes', parseInt(time_string_minutes));
-}
- 
-function add_time(moment_date_object, time_string) {
-    time_string = ("000" + time_string).slice(-4);
-    var time_string_hours = time_string.substr(0, 2),
-        time_string_minutes = time_string.substr(2, 4);
-    return moment_date_object.add('hours', parseInt(time_string_hours)).add('minutes', parseInt(time_string_minutes));
-}
- 
-function generateSchedule() {
-    var day= 1,
-        time_in_box = '10',
-        time_until_heroin = '0315',
-        time_until_morphine = '2100';
-    $('.results').html($('.results').html(""));
- 
-    var cond_start_date_and_time = calculate_start_date_and_time($('#cond_start_date').val(), $('#cond_start_time').val());
-    var day_0_heroin, pretreatment1_injection_time, pretreatment2_injection_time, cond_end_time, total_end_time, heroin_injection_time;
-    while (day <= parseInt($('#number_of_days').val())) {
-        if (day === 1) {  //#calculate time of heroin injection the day before (day 0)
-            day_0_heroin = subtract_time(cond_start_date_and_time, time_until_morphine);
-            console.log("Day 0: " + day_0_heroin.format('MMMM Do YYYY'));
-            $('.results').html($('.results').html() + "<p>" + "Day 0: " + day_0_heroin.format('MMMM Do YYYY') + "</p>");
-            console.log("Inject heroin at " + day_0_heroin.format('h:mm:ss a'));
-            $('.results').html($('.results').html() + "<p>" + "Inject heroin at " + day_0_heroin.format('h:mm:ss a') + "</p>");
-            console.log(" ");
-            $('.results').html($('.results').html() + "<br>");
-        }
-        console.log("Day " + day + " - " + cond_start_date_and_time.format('MMMM Do YYYY'));
-         $('.results').html($('.results').html() + "<p>" + "Day " + day + " - " + cond_start_date_and_time.format('MMMM Do YYYY') + "</p>");
-        if ($('#pretreatment1').val() !== "") {
-            pretreatment1_injection_time = subtract_time(cond_start_date_and_time, $('#pretreatment1_time').val());
-            console.log($('#pretreatment1').val() + "at " + pretreatment1_injection_time.format('h:mm:ss a'));
-            $('.results').html($('.results').html() + "<p>" + $('#pretreatment1').val() + "at " + pretreatment1_injection_time.format('h:mm:ss a') + "</p>");
-        }
-        if ($('#pretreatment2').val() !== "") {
-            pretreatment2_injection_time = subtract_time(cond_start_date_and_time, $('#pretreatment2_time').val());
-            console.log($('#pretreatment2').val() + "at " + pretreatment1_injection_time.format('h:mm:ss a'));
-            $('.results').html($('.results').html() + "<p>" + $('#pretreatment2').val() + "at " + pretreatment2_injection_time.format('h:mm:ss a') + "</p>");
-        }
-        cond_end_time = add_time(cond_start_date_and_time, time_in_box);
-        total_end_time = add_time(cond_end_time, parseInt($('#time_to_condition').val()));
-        heroin_injection_time = add_time(cond_end_time, time_until_heroin);
- 
-        if (day < 8) {
-            console.log("Inject heroin at " + heroin_injection_time.format('h:mm:ss a'));
-            $('.results').html($('.results').html() + "<p>" + "Inject heroin at " + heroin_injection_time.format('h:mm:ss a') + "</p>");
-            console.log(" ");
-            $('.results').html($('.results').html() + "<br>");
-        } else {
-            console.log(" ");
-            $('.results').html($('.results').html() + "<br>");
-            console.log("Congrats, you are done!");
-            $('.results').html($('.results').html() + "<p>Done!</p>");
-        }
-        cond_start_date_and_time = add_time(add_time(heroin_injection_time, parseInt($('#time_to_condition').val())), time_until_morphine);
-        day = day + 1;
-    }
-}
-</script>
+  <link href="https://cdn.jsdelivr.net/bootstrap.timepicker/0.2.6/css/bootstrap-timepicker.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/bootstrap.timepicker/0.2.6/js/bootstrap-timepicker.js"></script>
+  <link href="https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- MCC Generator Javascript &amp; Style Sheet -->
+  <script type="text/javascript" src="mcc.js"></script>
+  <link rel="stylesheet" href="mcc.css"></link>
+
   <head>
     <meta charset="utf-8">
     <title>mCPP Schedule Generator</title>
     <meta name="description" content="">
   </head>
   <body>
+    <h3>mCPP_schedule_generator</h3>
+    <p class="description">Generates an 8 day conditioning schedule for mCPP (morphine conditioned place preference) in dependent animals.</p>
     <div class="col-sm-13 contact-form">
         <form action="#" onsubmit="generateSchedule();return false" class="form">
           <div class="row">
             <div class="col-xs-6 col-md-6 form-group">
-              <input id="cond_start_date" name="cond_start_date" placeholder="Start Date of Conditioning" data-format="yyyy-MM-dd" type="text" class="form-control date-picker">
+              <input id="cond_start_date" name="cond_start_date" placeholder="Start Date of Conditioning e.g. 2014/05/17" data-format="yyyy-MM-dd" type="text" class="form-control date-picker">
             </div>
             <div class="col-xs-6 col-md-6 form-group">
-              <input id="cond_start_time" name="cond_start_time" placeholder="Start Time of Conditioning" data-format="hh:mm:ss" type="text" class="form-control time-picker">
+              <input id="cond_start_time" name="cond_start_time" placeholder="Start Time of Conditioning e.g. 0700" data-format="hh:mm:ss a" type="text" class="form-control time-picker">
             </div>
           </div>
           <div class="row">
             <div class="col-xs-6 col-md-6 form-group">
-              <input id="number_of_days" name="number_of_days" placeholder="Number of Days to Condition" type="text" class="form-control">
+              <input id="number_of_days" name="number_of_days" placeholder="Number of Days to Condition e.g. 8" type="text" class="form-control">
             </div>
             <div class="col-xs-6 col-md-6 form-group">
-              <input id="time_to_condition" name="time_to_condition" placeholder="Time to Condition" data-format="hh:mm:ss" type="text" class="form-control time-picker">
+              <input id="time_to_condition" name="time_to_condition" placeholder="Time to Condition e.g. 0030" data-format="hh:mm:ss" type="text" class="form-control duration-picker">
             </div>
           </div>
           <div class="row">
             <div class="col-xs-6 col-md-6 form-group">
-              <input id="pretreatment1" name="pretreatment1" placeholder="First Pretreatment" type="text" class="form-control">
+              <input id="pretreatment1" name="pretreatment1" placeholder="First Pretreatment e.g. Alpha-flu" type="text" class="form-control">
             </div>
             <div class="col-xs-6 col-md-6 form-group">
-              <input id="pretreatment1_time" name="pretreatment1_time" placeholder="First Pretreatment Time" data-format="hh:mm:ss" type="text" class="form-control time-picker">
+              <input id="pretreatment1_time" name="pretreatment1_time" placeholder="First Pretreatment Time e.g. 0230" data-format="hh:mm:ss" type="text" class="form-control duration-picker">
             </div>
           </div>
           <div class="row">
             <div class="col-xs-6 col-md-6 form-group">
-              <input id="pretreatment2" name="pretreatment2" placeholder="Second Pretreatment" type="text" class="form-control">
+              <input id="pretreatment2" name="pretreatment2" placeholder="Second Pretreatment e.g. Mefloquine" type="text" class="form-control">
             </div>
             <div class="col-xs-6 col-md-6 form-group">
-              <input id="pretreatment2_time" name="pretreatment2_time" placeholder="Second Pretreatment Time" data-format="hh:mm:ss" type="text" class="form-control time-picker">
+              <input id="pretreatment2_time" name="pretreatment2_time" placeholder="Second Pretreatment Time e.g. 0045" data-format="hh:mm:ss" type="text" class="form-control duration-picker">
             </div>
           </div>
- 
+
           <div class="col-xs-13 col-md-13 form-group btns">
             <button type="submit" class="btn btn-primary pull-right contact-submit">Submit</button>
           </div>
         </form>
       </div>
-      <div class="results" style="text-align: center;"></div>
+      <div class="results">
+        <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>Date</th>
+                  <th class="pretreatment1_label">First Pretreatment</th>
+                  <th class="pretreatment2_label">Second First Pretreatment</th>
+                  <th>First morphine injection</th>
+                  <th>Take first rat out of box</th>
+                  <th>Finish conditioning</th>
+                  <th>Inject heroin</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+      </div>
   </body>
 </html>
