@@ -12,6 +12,7 @@ def add_time(start_time, time_to_add):
     
     return start_time + datetime.timedelta(hours=int(time_to_add[:2]), minutes=int(time_to_add[2:]))
 
+
 def subtract_time(start_time, time_to_subtract):
     '''(datetime object, str) -> datetime object. '''
     
@@ -23,12 +24,15 @@ def convert_to_date(datetime_object_to_print):
     datetime_string = datetime_object_to_print.ctime()
     return datetime_string[:10] + datetime_string[-5:]
 
-def convert_to_time(datetime_object_to_print):
+def convert_to_time(start_date, datetime_object_to_print):
     '''(datetime object) -> str. '''
     
     datetime_string = datetime_object_to_print.ctime()
-    return datetime_string[11:16]
-
+    if convert_to_date(start_date)== convert_to_date(datetime_object_to_print):
+        return datetime_string[11:16]
+    else:
+        return datetime_string[11:16] + "(" + convert_to_date(datetime_object_to_print) + ")"
+        
 def conditioning_times(cond_start_date, cond_start_time, number_of_days, time_to_condition, pretreatment1, pretreatment1_time, pretreatment2, pretreatment2_time):
     '''(str, str, int, str, str, str, str, str) -> None
     Given the starting date, starting time (time of first morphine injection), number of days spent conditioning (normally 8), 
@@ -49,34 +53,34 @@ def conditioning_times(cond_start_date, cond_start_time, number_of_days, time_to
         if day == 1:
             day_0_heroin = subtract_time(cond_start_date_and_time, time_until_morphine)
             print("Day 0 - " + convert_to_date(day_0_heroin))
-            print("Inject heroin at " + convert_to_time(day_0_heroin))
+            print("Inject heroin at " + convert_to_time(cond_start_date_and_time, day_0_heroin))
             print(" ")
         
         print("Day " + str(day) + " - " + convert_to_date(cond_start_date_and_time))
         
-        if pretreatment1 != None:
+        if pretreatment1 != '':
             pretreatment1_injection_time = subtract_time(cond_start_date_and_time, pretreatment1_time)
-            print(pretreatment1 + " at " + convert_to_time(pretreatment1_injection_time))
+            print(pretreatment1 + " at " + convert_to_time(cond_start_date_and_time, pretreatment1_injection_time))
         
-        if pretreatment2 != None:
+        if pretreatment2 != '':
             pretreatment2_injection_time = subtract_time(cond_start_date_and_time, pretreatment2_time)
-            print(pretreatment2 + " at " + convert_to_time(pretreatment2_injection_time))
+            print(pretreatment2 + " at " + convert_to_time(cond_start_date_and_time, pretreatment2_injection_time))
         
         cond_end_time = add_time(cond_start_date_and_time, time_in_box)
         total_end_time = add_time(cond_end_time, time_to_condition)
         heroin_injection_time = add_time(cond_end_time, time_until_heroin)
         
-        print("First morphine injection at " + convert_to_time(cond_start_date_and_time))
-        print("Take first rat out of box at " + convert_to_time(cond_end_time))
-        print("Finish conditioning at " + convert_to_time(total_end_time))
+        print("First morphine injection at " + convert_to_time(cond_start_date_and_time, cond_start_date_and_time))
+        print("Take first rat out of box at " + convert_to_time(cond_start_date_and_time, cond_end_time))
+        print("Finish conditioning at " + convert_to_time(cond_end_time, total_end_time))
         
         if day < 8:
-            print("Heroin injection at " + convert_to_time(heroin_injection_time))
+            print("Heroin injection at " + convert_to_time(cond_end_time, heroin_injection_time))
             print(" ")
 
         else:
             print(" ")
-            print("Congrats, you are done!")
+            print("You are done!")
         
         cond_start_date_and_time = add_time(add_time(heroin_injection_time, time_to_condition), time_until_morphine)
         day = day + 1
