@@ -32,7 +32,7 @@ def convert_to_time(datetime_object_to_print):
 def conditioning_times(cond_start_date, cond_start_time, number_of_days, time_to_condition, pretreatment1, pretreatment1_time, pretreatment2, pretreatment2_time):
     '''(str, str, int, str, str, str, str, str) -> None
     Given the starting date, starting time (time of first morphine injection), number of days spent conditioning (normally 8), 
-    time between conditioning (i.e. time span between when the first animal and last animal is done being conditionedfrom box, which depends on
+    time between conditioning (i.e. time span between when the first animal and last animal is done being conditioned, which depends on
     various factors such as whether animals are given infusions, and the number of animals you use), and name and times of pretreatments (optional);
     this function prints a conditioning schedule for mCPP in dependent animals. '''
 
@@ -46,9 +46,9 @@ def conditioning_times(cond_start_date, cond_start_time, number_of_days, time_to
     
     while day <= number_of_days:
 
-        if day == 1:    #calculate time of heroin injection the day before (day 0)
+        if day == 1:
             day_0_heroin = subtract_time(cond_start_date_and_time, time_until_morphine)
-            print("Day 0: " + convert_to_date(day_0_heroin))
+            print("Day 0 - " + convert_to_date(day_0_heroin))
             print("Inject heroin at " + convert_to_time(day_0_heroin))
             print(" ")
         
@@ -82,6 +82,27 @@ def conditioning_times(cond_start_date, cond_start_time, number_of_days, time_to
         day = day + 1
 
 if __name__ == "__main__":
-    pass
+
+    print("When will you begin conditioning? (yyyy/mm/dd)")
+    cond_start_date = raw_input()
+    print("What time will you begin conditioning (i.e. administer first morphine injection)?")
+    print("Note: This program uses a 24 hour clock (i.e. 7:00 AM is 0700 and 7:00 PM is 1900).")
+    cond_start_time = raw_input()
+    print("How much extra time will you need between animals (i.e. time interval from when 1st animal and last animals are done conditioning).")
+    time_to_condition = raw_input()
+    print("How many days will you be conditioning for?")
+    number_of_days = int(raw_input())
+    print("Please enter name of first pretreatment/infusion (if none, press ENTER key).")
+    pretreatment1 = raw_input()
+    print("Please enter time of first pretreatment/infusion (if none, press ENTER key)")
+    pretreatment1_time = raw_input()
+    print("Please enter name of second pretreatment/infusion (if none, press ENTER key).")
+    pretreatment2 = raw_input()
+    print("Please enter time of second pretreatment/infusion (if none, press ENTER key)")
+    pretreatment2_time = raw_input()
+
+    conditioning_times(cond_start_date, cond_start_time, number_of_days, time_to_condition, pretreatment1, pretreatment1_time, pretreatment2, pretreatment2_time)
+
+
 
 
