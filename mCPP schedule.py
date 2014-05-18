@@ -19,14 +19,14 @@ def subtract_time(start_time, time_to_subtract):
     
 def convert_to_date(datetime_object_to_print):
     '''(datetime object) -> str. '''
+
     datetime_string = datetime_object_to_print.ctime()
-    
     return datetime_string[:10] + datetime_string[-5:]
 
 def convert_to_time(datetime_object_to_print):
     '''(datetime object) -> str. '''
-    datetime_string = datetime_object_to_print.ctime()
     
+    datetime_string = datetime_object_to_print.ctime()
     return datetime_string[11:16]
 
 def conditioning_times(cond_start_date, cond_start_time, number_of_days, time_to_condition, pretreatment1, pretreatment1_time, pretreatment2, pretreatment2_time):
@@ -88,17 +88,17 @@ if __name__ == "__main__":
     print("What time will you begin conditioning (i.e. administer first morphine injection)?")
     print("Note: This program uses a 24 hour clock (i.e. 7:00 AM is 0700 and 7:00 PM is 1900).")
     cond_start_time = raw_input()
-    print("How much extra time will you need between animals (i.e. time interval from when 1st animal and last animals are done conditioning).")
+    print("How much extra time will you need between animals (i.e. time interval between first and last animal).")
     time_to_condition = raw_input()
     print("How many days will you be conditioning for?")
     number_of_days = int(raw_input())
-    print("Please enter name of first pretreatment/infusion (if none, press ENTER key).")
+    print("Please enter name of first pretreatment/micro-infusion (if none, press ENTER key).")
     pretreatment1 = raw_input()
-    print("Please enter time of first pretreatment/infusion (if none, press ENTER key)")
+    print("Please enter time of first pretreatment/micro-infusion (if none, press ENTER key)")
     pretreatment1_time = raw_input()
-    print("Please enter name of second pretreatment/infusion (if none, press ENTER key).")
+    print("Please enter name of second pretreatment/micro-infusion (if none, press ENTER key).")
     pretreatment2 = raw_input()
-    print("Please enter time of second pretreatment/infusion (if none, press ENTER key)")
+    print("Please enter time of second pretreatment/micro-infusion (if none, press ENTER key)")
     pretreatment2_time = raw_input()
 
     conditioning_times(cond_start_date, cond_start_time, number_of_days, time_to_condition, pretreatment1, pretreatment1_time, pretreatment2, pretreatment2_time)
