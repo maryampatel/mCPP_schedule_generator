@@ -2,29 +2,32 @@ import datetime
 
 def calculate_start_date_and_time(start_date, start_time):
     '''(str, str) -> datetime object. '''
+    
     start_time_hours, start_time_minutes = int(start_time[:2]), int(start_time[2:])
     start_year, start_month, start_day = int(start_date[:4]), int(start_date[5:7]), int(start_date[8:])
     return datetime.datetime(year=start_year, month=start_month, day=start_day, hour=start_time_hours, minute=start_time_minutes)
 
 def add_time(start_time, time_to_add):
     '''(datetime object, str) -> datetime object. '''
+    
     return start_time + datetime.timedelta(hours=int(time_to_add[:2]), minutes=int(time_to_add[2:]))
 
 def subtract_time(start_time, time_to_subtract):
     '''(datetime object, str) -> datetime object. '''
+    
     return start_time - datetime.timedelta(hours=int(time_to_subtract[:2]), minutes=int(time_to_subtract[2:]))
     
 def convert_to_date(datetime_object_to_print):
     '''(datetime object) -> str. '''
     datetime_string = datetime_object_to_print.ctime()
+    
     return datetime_string[:10] + datetime_string[-5:]
 
 def convert_to_time(datetime_object_to_print):
     '''(datetime object) -> str. '''
     datetime_string = datetime_object_to_print.ctime()
-    return datetime_string[11:16]
-
     
+    return datetime_string[11:16]
 
 def conditioning_times(cond_start_date, cond_start_time, number_of_days, time_to_condition, pretreatment1, pretreatment1_time, pretreatment2, pretreatment2_time):
     '''(str, str, int, str, str, str, str, str) -> None
@@ -44,7 +47,6 @@ def conditioning_times(cond_start_date, cond_start_time, number_of_days, time_to
     while day <= number_of_days:
 
         if day == 1:    #calculate time of heroin injection the day before (day 0)
-        
             day_0_heroin = subtract_time(cond_start_date_and_time, time_until_morphine)
             print("Day 0: " + convert_to_date(day_0_heroin))
             print("Inject heroin at " + convert_to_time(day_0_heroin))
