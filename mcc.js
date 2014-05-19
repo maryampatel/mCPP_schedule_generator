@@ -47,7 +47,7 @@ function add_time(moment_date_object, time_string) {
 
 function getTimeOf(time, conditioningDate) {
     // Check if the dates are different 
-    if (time.format('MMMM Do YYYY') !== conditioningDate.format('MMMM Do YYYY')) {
+    if (time.format('MMMM Do YYYY') !== conditioningDate) {
         return time.format('h:mm a') + "(" + time.format('MMMM Do YYYY')  + ")";
     }
     return time.format('h:mm a');
