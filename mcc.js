@@ -1,31 +1,30 @@
-// $(document).ready(function(){
-  // $(function() {
-  //   $('.date-picker').datetimepicker({
-  //     pickTime: false
-  //   });
-  // });
-  // $(function() {
-  //   $('.time-picker').datetimepicker({
-  //     pickDate: false,
-  //     pickSeconds: true
-  //   });
-  // });
-  // $(function() {
-  //   $('.duration-picker').timepicker({
-  //       minuteStep: 1,
-  //       showMeridian: false,
-  //       defaultTime: false
-  //   }).on('show.timepicker', function(e) {
-  //       $('.icon-chevron-up').addClass('fa fa-chevron-up');
-  //       $('.icon-chevron-down').addClass('fa fa-chevron-down');
-  //   });;
-  // });
-// });
+$(document).ready(function(){
+  $(function() {
+    $('.date-picker').datetimepicker({
+      pickTime: false,
+      format: "YYYY/MM/DD",
+    });
+  });
+  $(function() {
+    $('.time-picker').datetimepicker({
+      pickDate: false,
+      format: "hh:mm a",
+      // defaultDate: "11/22/2013 00:00"
+    });
+  });
+  $(function() {
+    $('.duration-picker').datetimepicker({
+      pickDate: false,
+      format: "HH:mm",
+      // defaultDate: "11/22/2013 00:00"
+    });
+  });
+});
 
 
 function calculate_start_date_and_time(start_date, start_time) {
-    var start_time_hours = start_time.substr(0, 2),
-        start_time_minutes = start_time.substr(2, 4),
+    var start_time_hours = parseInt(start_time.substr(0, 2)) + (start_time.substr(6, 2) === "pm" ? 12 : 0),
+        start_time_minutes = start_time.substr(3, 2),
         start_year = start_date.substr(0, 4),
         start_month = start_date.substr(5, 2),
         start_day = start_date.substr(8);
@@ -33,16 +32,16 @@ function calculate_start_date_and_time(start_date, start_time) {
 }
 
 function subtract_time(moment_date_object, time_string) {
-    time_string = ("000" + time_string).slice(-4);
+    time_string = ("0000" + time_string).slice(-5);
     var time_string_hours = time_string.substr(0, 2),
-        time_string_minutes = time_string.substr(2, 4);
+        time_string_minutes = time_string.substr(3, 2);
     return moment(moment_date_object.format()).subtract('hours', parseInt(time_string_hours)).subtract('minutes', parseInt(time_string_minutes));
 }
 
 function add_time(moment_date_object, time_string) {
-    time_string = ("000" + time_string).slice(-4);
+    time_string = ("0000" + time_string).slice(-5);
     var time_string_hours = time_string.substr(0, 2),
-        time_string_minutes = time_string.substr(2, 4);
+        time_string_minutes = time_string.substr(3, 2);
     return moment(moment_date_object.format()).add('hours', parseInt(time_string_hours)).add('minutes', parseInt(time_string_minutes));
 }
 
@@ -56,33 +55,33 @@ function addToTable(rowInformation) {
         firstConditioningTime = (rowInformation.firstConditioningTime ? rowInformation.firstConditioningTime.format('h:mm:ss a') : ""),
         heroineInjectionTime = (rowInformation.heroineInjectionTime ? rowInformation.heroineInjectionTime.format('h:mm:ss a') : "");
 
-    $("tbody").append("<tr><td>" + day + "</td><td>" + condStartDateAndTime + "</td><td>" + pretreatment1InjectionTime + "</td><td>" + pretreatment2InjectionTime + "</td><td>" + firstMorpineTime + "</td><td>" + firstRatOutOfBoxTime + "</td><td>" + firstConditioningTime + "</td><td>" + heroineInjectionTime + "</td></tr>");
+    $(".results tbody").append("<tr><td>" + day + "</td><td>" + condStartDateAndTime + "</td><td>" + pretreatment1InjectionTime + "</td><td>" + pretreatment2InjectionTime + "</td><td>" + firstMorpineTime + "</td><td>" + firstRatOutOfBoxTime + "</td><td>" + firstConditioningTime + "</td><td>" + heroineInjectionTime + "</td></tr>");
 }
 
 function setUpTable() {
-    $("tbody").empty(); // Empty the table
+    $(".results tbody").empty(); // Empty the table
     if ($('#pretreatment1').val() !== "") {
         $('.pretreatment1_label').text($('#pretreatment1').val()); // Label the pretreatment columns
-        $('table').removeClass('hide-pretreatment-one'); // Remove the class that hides the table column
+        $('.results table').removeClass('hide-pretreatment-one'); // Remove the class that hides the table column
     } else {
-        $('table').addClass('hide-pretreatment-one'); // Adds the class that hides the table column
+        $('.results table').addClass('hide-pretreatment-one'); // Adds the class that hides the table column
     }
     if ($('#pretreatment2').val() !== "") {
         $('.pretreatment2_label').text($('#pretreatment2').val()); // Label the pretreatment columns
-        $('table').removeClass('hide-pretreatment-two'); // Remove the class that hides the table column
+        $('.results table').removeClass('hide-pretreatment-two'); // Remove the class that hides the table column
     } else {
-        $('table').addClass('hide-pretreatment-two'); // Adds the class that hides the table column
+        $('.results table').addClass('hide-pretreatment-two'); // Adds the class that hides the table column
     }
 
-    $("table").show(); // Show the table
+    $(".results table").show(); // Show the table
 }
 
 function generateSchedule() {
     // Setup variables. traditionally done at the top of a function
     var day = 1,
-        time_in_box = '10',
-        time_until_heroin = '0315',
-        time_until_morphine = '2100',
+        time_in_box = '00:10',
+        time_until_heroin = '03:15',
+        time_until_morphine = '21:00',
         day_0_heroin,
         pretreatment1_injection_time,
         pretreatment2_injection_time,
