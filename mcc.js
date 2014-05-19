@@ -55,12 +55,12 @@ function getTimeOf(time, conditioningDate) {
 function addToTable(rowInformation) {
     var day = rowInformation.day,
         condStartDateAndTime = (rowInformation.condStartDateAndTime ? rowInformation.condStartDateAndTime.format('MMMM Do YYYY') : ""),
-        pretreatment1InjectionTime = (rowInformation.pretreatment1InjectionTime ? getTimeOf(rowInformation.pretreatment1InjectionTime, condStartDateAndTime) : "");
-        pretreatment2InjectionTime = (rowInformation.pretreatment2InjectionTime ? getTimeOf(rowInformation.pretreatment2InjectionTime, condStartDateAndTime) : "");
-        firstMorpineTime = (rowInformation.firstMorpineTime ? rowInformation.firstMorpineTime.format('h:mm:ss a') : ""),
-        firstRatOutOfBoxTime = (rowInformation.firstRatOutOfBoxTime ? rowInformation.firstRatOutOfBoxTime.format('h:mm:ss a') : ""),
-        finishConditioningTime = (rowInformation.heroinInjectionTime ? getTimeOf(rowInformation.finishConditioningTime, condStartDateAndTime) : "");
-        heroinInjectionTime = (rowInformation.heroinInjectionTime ? getTimeOf(rowInformation.heroinInjectionTime, condStartDateAndTime) : "");
+        pretreatment1InjectionTime = (rowInformation.pretreatment1InjectionTime ? getTimeOf(rowInformation.pretreatment1InjectionTime, condStartDateAndTime) : ""),
+        pretreatment2InjectionTime = (rowInformation.pretreatment2InjectionTime ? getTimeOf(rowInformation.pretreatment2InjectionTime, condStartDateAndTime) : ""),
+        firstMorpineTime = (rowInformation.firstMorphineTime ? getTimeOf(rowInformation.firstMorphineTime, condStartDateAndTime) : ""),
+        firstRatOutOfBoxTime = (rowInformation.firstRatOutOfBoxTime ? getTimeOf(rowInformation.firstRatOutOfBoxTime, condStartDateAndTime) : ""),
+        finishConditioningTime = (rowInformation.finishConditioningTime ? getTimeOf(rowInformation.finishConditioningTime, condStartDateAndTime) : ""),
+        heroinInjectionTime = (rowInformation.heroinInjectionTime ? getTimeOf(rowInformation.heroinInjectionTime, condStartDateAndTime) : ""),
 
     $(".results tbody").append("<tr><td>" + day + "</td><td>" + condStartDateAndTime + "</td><td>" + pretreatment1InjectionTime + "</td><td>" + pretreatment2InjectionTime + "</td><td>" + firstMorpineTime + "</td><td>" + firstRatOutOfBoxTime + "</td><td>" + firstConditioningTime + "</td><td>" + heroinInjectionTime + "</td></tr>");
 }
