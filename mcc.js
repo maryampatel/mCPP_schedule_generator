@@ -1,29 +1,33 @@
-$(document).ready(function(){
-  $(function() {
-    $('.date-picker').datetimepicker({
-      pickTime: false,
-      format: "YYYY/MM/DD",
+/*global $, document, parseInt, moment*/
+$(document).ready(function () {
+    "use strict";
+    $(function () {
+        $('.date-picker').datetimepicker({
+            pickTime: false,
+            format: "YYYY/MM/DD",
+        });
     });
-  });
-  $(function() {
-    $('.time-picker').datetimepicker({
-      pickDate: false,
-      format: "hh:mm a",
-      // defaultDate: "11/22/2013 00:00"
+    $(function () {
+        $('.time-picker').datetimepicker({
+            pickDate: false,
+            ormat: "hh:mm a",
+            // defaultDate: "11/22/2013 00:00"
+        });
     });
-  });
-  $(function() {
-    $('.duration-picker').datetimepicker({
-      pickDate: false,
-      format: "HH:mm",
-      // defaultDate: "11/22/2013 00:00"
+    $(function () {
+        $('.duration-picker').datetimepicker({
+            pickDate: false,
+            format: "HH:mm",
+            // defaultDate: "11/22/2013 00:00"
+        });
     });
-  });
 });
 
 
 function calculate_start_date_and_time(start_date, start_time) {
-    var start_time_hours = parseInt(start_time.substr(0, 2)) + (start_time.substr(6, 2) === "pm" ? 12 : 0),
+    "use strict";
+    start_time = ("0000" + start_time).slice(-8);
+    var start_time_hours = parseInt(start_time.substr(0, 2), 10) + (start_time.substr(6, 2) === "pm" ? 12 : 0),
         start_time_minutes = start_time.substr(3, 2),
         start_year = start_date.substr(0, 4),
         start_month = start_date.substr(5, 2),
@@ -32,20 +36,23 @@ function calculate_start_date_and_time(start_date, start_time) {
 }
 
 function subtract_time(moment_date_object, time_string) {
+    "use strict";
     time_string = ("0000" + time_string).slice(-5);
     var time_string_hours = time_string.substr(0, 2),
         time_string_minutes = time_string.substr(3, 2);
-    return moment(moment_date_object.format()).subtract('hours', parseInt(time_string_hours)).subtract('minutes', parseInt(time_string_minutes));
+    return moment(moment_date_object.format()).subtract('hours', parseInt(time_string_hours, 10)).subtract('minutes', parseInt(time_string_minutes, 10));
 }
 
 function add_time(moment_date_object, time_string) {
+    "use strict";
     time_string = ("0000" + time_string).slice(-5);
     var time_string_hours = time_string.substr(0, 2),
         time_string_minutes = time_string.substr(3, 2);
-    return moment(moment_date_object.format()).add('hours', parseInt(time_string_hours)).add('minutes', parseInt(time_string_minutes));
+    return moment(moment_date_object.format()).add('hours', parseInt(time_string_hours, 10)).add('minutes', parseInt(time_string_minutes, 10));
 }
 
 function getTimeOf(time, conditioningDate) {
+    "use strict";
     // Check if the dates are different 
     if (time.format('MMMM Do YYYY') !== conditioningDate) {
         return time.format('h:mm a') + "(" + time.format('MMMM Do YYYY')  + ")";
@@ -53,19 +60,21 @@ function getTimeOf(time, conditioningDate) {
     return time.format('h:mm a');
 }
 function addToTable(rowInformation) {
+    "use strict";
     var day = rowInformation.day,
         condStartDateAndTime = (rowInformation.condStartDateAndTime ? rowInformation.condStartDateAndTime.format('MMMM Do YYYY') : ""),
         pretreatment1InjectionTime = (rowInformation.pretreatment1InjectionTime ? getTimeOf(rowInformation.pretreatment1InjectionTime, condStartDateAndTime) : ""),
         pretreatment2InjectionTime = (rowInformation.pretreatment2InjectionTime ? getTimeOf(rowInformation.pretreatment2InjectionTime, condStartDateAndTime) : ""),
-        firstMorpineTime = (rowInformation.firstMorphineTime ? getTimeOf(rowInformation.firstMorphineTime, condStartDateAndTime) : ""),
+        firstMorphineTime = (rowInformation.firstMorphineTime ? getTimeOf(rowInformation.firstMorphineTime, condStartDateAndTime) : ""),
         firstRatOutOfBoxTime = (rowInformation.firstRatOutOfBoxTime ? getTimeOf(rowInformation.firstRatOutOfBoxTime, condStartDateAndTime) : ""),
         finishConditioningTime = (rowInformation.finishConditioningTime ? getTimeOf(rowInformation.finishConditioningTime, condStartDateAndTime) : ""),
-        heroinInjectionTime = (rowInformation.heroinInjectionTime ? getTimeOf(rowInformation.heroinInjectionTime, condStartDateAndTime) : ""),
+        heroinInjectionTime = (rowInformation.heroinInjectionTime ? getTimeOf(rowInformation.heroinInjectionTime, condStartDateAndTime) : "");
 
-    $(".results tbody").append("<tr><td>" + day + "</td><td>" + condStartDateAndTime + "</td><td>" + pretreatment1InjectionTime + "</td><td>" + pretreatment2InjectionTime + "</td><td>" + firstMorpineTime + "</td><td>" + firstRatOutOfBoxTime + "</td><td>" + firstConditioningTime + "</td><td>" + heroinInjectionTime + "</td></tr>");
+    $(".results tbody").append("<tr><td>" + day + "</td><td>" + condStartDateAndTime + "</td><td>" + pretreatment1InjectionTime + "</td><td>" + pretreatment2InjectionTime + "</td><td>" + firstMorphineTime + "</td><td>" + firstRatOutOfBoxTime + "</td><td>" + finishConditioningTime + "</td><td>" + heroinInjectionTime + "</td></tr>");
 }
 
 function setUpTable() {
+    "use strict";
     $(".results tbody").empty(); // Empty the table
     if ($('#pretreatment1').val() !== "") {
         $('.pretreatment1_label').text($('#pretreatment1').val()); // Label the pretreatment columns
@@ -84,6 +93,7 @@ function setUpTable() {
 }
 
 function generateSchedule() {
+    "use strict";
     // Setup variables. traditionally done at the top of a function
     var day = 1,
         time_in_box = '00:10',
@@ -102,7 +112,7 @@ function generateSchedule() {
     input = {
         cond_start_date: $('#cond_start_date').val(),
         cond_start_time: $('#cond_start_time').val(),
-        number_of_days: parseInt($('#number_of_days').val()),
+        number_of_days: parseInt($('#number_of_days').val(), 10),
         time_to_condition: $('#time_to_condition').val(),
         pretreatment1: $('#pretreatment1').val(),
         pretreatment1_time: $('#pretreatment1_time').val(),
@@ -139,7 +149,7 @@ function generateSchedule() {
             condStartDateAndTime: cond_start_date_and_time,
             pretreatment1InjectionTime: pretreatment1_injection_time, //pretreatment1_injection_time is undefined if there is no pretreatment1
             pretreatment2InjectionTime: pretreatment2_injection_time, //pretreatment2_injection_time is undefined if there is no pretreatment2
-            firstMorpineTime: cond_start_date_and_time,
+            firstMorphineTime: cond_start_date_and_time,
             firstRatOutOfBoxTime: cond_end_time,
             finishConditioningTime: total_end_time,
             heroinInjectionTime: (day < 8 ? heroin_injection_time : undefined), // Pass the heroin injection time only if the day is less than 8, otherwise pass undefined
