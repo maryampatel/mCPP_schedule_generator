@@ -27,7 +27,7 @@ $(document).ready(function () {
 function calculate_start_date_and_time(start_date, start_time) {
     "use strict";
     start_time = ("0000" + start_time).slice(-8);
-    var start_time_hours = parseInt(start_time.substr(0, 2), 10) + (start_time.substr(6, 2) === "pm" ? 12 : 0),
+    var start_time_hours = parseInt(start_time.substr(0, 2), 10) + (start_time.substr(6, 2) === "PM" ? 12 : 0),
         start_time_minutes = start_time.substr(3, 2),
         start_year = start_date.substr(0, 4),
         start_month = start_date.substr(5, 2),
@@ -96,7 +96,7 @@ function generateSchedule() {
     "use strict";
     // Setup variables. traditionally done at the top of a function
     var day = 1,
-        time_in_box = '00:10',
+        time_in_box = '00:0',
         time_until_heroin = '03:15',
         time_until_morphine = '21:00',
         day_0_heroin,
