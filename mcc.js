@@ -96,7 +96,7 @@ function generateSchedule() {
     "use strict";
     // Setup variables. traditionally done at the top of a function
     var day = 1,
-        time_in_box = '00:0',
+        time_in_box = '00:40',
         time_until_heroin = '03:15',
         time_until_morphine = '21:00',
         day_0_heroin,
